@@ -1,25 +1,3 @@
-//const getBtn = document.getElementById('get');
-//getBtn.addEventListener('click', () => {
-//  // making GET request
-//  let xml = new XMLHttpRequest();
-//  xml.addEventListener('load', requestListener);
-//  xml.open('GET', '../all');
-//  xml.send();
-//  
-//  function requestListener() {
-//    let data = this.responseText;
-//    let tanzakus = JSON.parse(data);
-//    
-//    let keys = Object.keys(tanzakus);
-//    for (let i = 0; i < keys.length; i++) {
-//      let title = keys[i];
-//      let url = tanzakus[title];
-//      
-//      fillTable(title, url);
-//    }
-//  }
-//});
-
 document.addEventListener('DOMContentLoaded', () => {
   // making GET request
   let xml = new XMLHttpRequest();
