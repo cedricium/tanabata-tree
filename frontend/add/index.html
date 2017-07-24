@@ -4,16 +4,11 @@
     <!-- Basic Page Needs
     ---------------------------------------------------- -->
     <meta charset="utf-8">
-    <title>tanabata-tree</title>
+    <title>tanabata-tree | Home</title>
     <meta name="description" content="">
     <meta name="author" content="Cedric Amaya | @cedricium">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Fonts
-    ---------------------------------------------------- -->
-    <link href="https://fonts.googleapis.com/css?family=Lemonada" rel="stylesheet"> 
-    <link type="text/css" rel="stylesheet" href="">
 
     <!-- CSS
     ---------------------------------------------------- -->
@@ -23,7 +18,7 @@
 
     <!-- Linked Pages
     ---------------------------------------------------- -->
-    <link type="text/css" href="">
+    <link type="text/css" href="../all/tanzakus.html">
 
     <!-- Favicon
     ---------------------------------------------------- --> 
@@ -40,13 +35,22 @@
                   <p class="tt-font" id="logo">tanabata-tree</p>
                 </a>
               </div>
-<!--
+              
               <span class="nav-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
               </span>
--->
+              
+              <div class="nav-right nav-menu">
+                <a class="nav-item is-tab is-active" href="#">
+                  Home
+                </a>
+                <a class="nav-item is-tab" href="../all/tanzakus.html">
+                  Tanzakus
+                </a>
+              </div>
+              
             </div>
           </nav>
         </div>
@@ -65,7 +69,7 @@
             <div class="column is-6 is-offset-1 field">
               <!-- Section title ('add tanzaku') -->
               <div class="container">
-                <h3 class="title is-3">Add a <span class="tt-font">tanzaku</span></h3>
+                <h2 class="title is-2">Add a <span class="tt-font">tanzaku</span></h2>
               </div>
               
               <!-- Title label and input field -->
@@ -85,6 +89,11 @@
                 <button id="add" class="button is-success is-medium">Submit</button>
               </div>
               
+              <div id="error" class="notification is-danger" style="visibility: hidden">
+                <button id="remove" class="delete"></button>
+                Oops! Looks like you forgot one or more of the above fields. Make sure they are both filled out and try resubmitting.
+              </div>
+              
             </div>
           </div>
         </div>
@@ -99,9 +108,9 @@
           </div>
         </div>
       </div>
-  </section>
+    </section>
     
-  
-    <script src="client.js"></script>
+    <script src="add.js"></script>
+    <script async type="text/javascript" src="../bulma.js"></script>
   </body>
 </html>

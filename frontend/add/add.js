@@ -1,3 +1,10 @@
+const errorNotif = document.getElementById('error');
+
+const btnRemove = document.getElementById('remove');
+btnRemove.addEventListener('click', () => {
+  errorNotif.style.visibility = 'hidden';
+});
+
 const btnAdd = document.getElementById('add');
 btnAdd.addEventListener('click', () => {
   let title = document.getElementById('title').value;
@@ -8,14 +15,14 @@ btnAdd.addEventListener('click', () => {
   
   // error handling (checking for empty values)
   if (title.length === 0 || url.length === 0) {
-    alert('Both Title and URL fields are required!');
+    errorNotif.style.visibility = 'visible';
     return false;
   }
   
   // making GET request
   let xml = new XMLHttpRequest();
   xml.addEventListener('load', requestListener);
-  xml.open('GET', 'add/' + title + '/' + url);
+  xml.open('GET', '../add/' + title + '/' + url);
   xml.send();
   
   function requestListener() {
