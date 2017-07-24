@@ -21,10 +21,10 @@
     <link type="text/css" href="../all/tanzakus.html">
 
     <!-- Favicon
-    ---------------------------------------------------- --> 
+    ---------------------------------------------------- -->
   </head>
   <body>
-  
+
     <section class="hero is-fullheight is-default is-bold">
       <div class="hero-head">
         <div class="container">
@@ -35,13 +35,13 @@
                   <p class="tt-font" id="logo">tanabata-tree</p>
                 </a>
               </div>
-              
+
               <span class="nav-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
               </span>
-              
+
               <div class="nav-right nav-menu">
                 <a class="nav-item is-tab is-active" href="#">
                   Home
@@ -50,7 +50,7 @@
                   Tanzakus
                 </a>
               </div>
-              
+
             </div>
           </nav>
         </div>
@@ -59,19 +59,19 @@
       <div class="hero-body">
         <div class="container">
           <div class="columns is-vcentered">
-            
+
             <div class="column is-5">
               <figure class="image is-4by3">
                 <img src="../resources/tanabata-tree.png" alt="Logo">
               </figure>
             </div>
-            
+
             <div class="column is-6 is-offset-1 field">
               <!-- Section title ('add tanzaku') -->
               <div class="container">
                 <h2 class="title is-2">Add a <span class="tt-font">tanzaku</span></h2>
               </div>
-              
+
               <!-- Title label and input field -->
               <label class="label">Title</label>
               <div class="control">
@@ -88,12 +88,12 @@
               <div class="control">
                 <button id="add" class="button is-success is-medium">Submit</button>
               </div>
-              
+
               <div id="error" class="notification is-danger" style="visibility: hidden">
                 <button id="remove" class="delete"></button>
                 Oops! Looks like you forgot one or more of the above fields. Make sure they are both filled out and try resubmitting.
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -101,16 +101,19 @@
 
       <div class="hero-foot">
         <div class="container">
-          <div class="tabs is-centered">
+
+          <div class="tabs">
             <ul>
-              <li><a>And this at the bottom</a></li>
+              <li><a target="_blank" id="version" href="https://www.github.com/cedricium/tanabata-tree">version: </a></li>
             </ul>
           </div>
+
         </div>
       </div>
     </section>
-    
-    <script src="add.js"></script>
-    <script async type="text/javascript" src="../bulma.js"></script>
+
+    <script type="text/javascript" src="add.js"></script>
+    <script async type="text/javascript" src="../javascript/bulma.js"></script>
+    <script async type="text/javascript" src="../javascript/version.js"></script>
   </body>
 </html>
