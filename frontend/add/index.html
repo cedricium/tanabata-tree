@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Basic Page Needs
+    ---------------------------------------------------- -->
+    <meta charset="utf-8">
+    <title>tanabata-tree</title>
+    <meta name="description" content="">
+    <meta name="author" content="Cedric Amaya | @cedricium">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts
+    ---------------------------------------------------- -->
+    <link href="https://fonts.googleapis.com/css?family=Lemonada" rel="stylesheet"> 
+    <link type="text/css" rel="stylesheet" href="">
+
+    <!-- CSS
+    ---------------------------------------------------- -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" id="bulma" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+
+    <!-- Linked Pages
+    ---------------------------------------------------- -->
+    <link type="text/css" href="">
+
+    <!-- Favicon
+    ---------------------------------------------------- --> 
+  </head>
+  <body>
+  
+    <section class="hero is-fullheight is-default is-bold">
+      <div class="hero-head">
+        <div class="container">
+          <nav class="nav has-shadow">
+            <div class="container">
+              <div class="nav-left">
+                <a class="nav-item" href="#">
+                  <p class="tt-font" id="logo">tanabata-tree</p>
+                </a>
+              </div>
+<!--
+              <span class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+-->
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-vcentered">
+            
+            <div class="column is-5">
+              <figure class="image is-4by3">
+                <img src="../resources/tanabata-tree.png" alt="Logo">
+              </figure>
+            </div>
+            
+            <div class="column is-6 is-offset-1 field">
+              <!-- Section title ('add tanzaku') -->
+              <div class="container">
+                <h3 class="title is-3">Add a <span class="tt-font">tanzaku</span></h3>
+              </div>
+              
+              <!-- Title label and input field -->
+              <label class="label">Title</label>
+              <div class="control">
+                <input id="title" class="input" type="text" placeholder="Reddit - the front page of the internet">
+              </div>
+
+              <!-- URL label and input field -->
+              <label class="label">URL</label>
+              <div class="control">
+                <input id="url" class="input" type="url" placeholder="https://www.reddit.com">
+              </div>
+
+              <!-- Submit button -->
+              <div class="control">
+                <button id="add" class="button is-success is-medium">Submit</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-foot">
+        <div class="container">
+          <div class="tabs is-centered">
+            <ul>
+              <li><a>And this at the bottom</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  </section>
+    
+  
+    <script src="client.js"></script>
+  </body>
+</html>

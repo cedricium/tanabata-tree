@@ -1,0 +1,25 @@
+{
+  "name": "tanabata-tree",
+  "version": "1.0.0",
+  "description": "Save links (called a 'tanzaku') for later viewing across multiple devices.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedricium/tanabata-tree.git"
+  },
+  "keywords": [
+    "tanabata-tree"
+  ],
+  "author": "Cedric Amaya <amaya.cedric@gmail.com> (http://cedricamaya.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cedricium/tanabata-tree/issues"
+  },
+  "homepage": "https://github.com/cedricium/tanabata-tree#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
