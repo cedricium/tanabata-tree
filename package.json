@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/cedricium/tanabata-tree#readme",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "connect-wwwhisper": "*"
   },
   "engines": {
     "node": "6.11.0"

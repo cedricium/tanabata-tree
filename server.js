@@ -4,6 +4,10 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// wwwhisper authentication
+const wwwhisper = require('connect-wwwhisper');
+app.use(wwwhisper());
+
 app.use(express.static('frontend'));
 app.use(express.static('frontend/add'));
 
