@@ -51,5 +51,5 @@ function responseHandler(response) {
 }
 
 function viewTanzakus() {
-  window.location.replace('../all/tanzakus.html');
+  window.location.href = '../all/tanzakus.html#recent';
 }

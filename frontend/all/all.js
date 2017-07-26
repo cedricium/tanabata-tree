@@ -14,15 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
       let title = keys[i];
       let url = tanzakus[title];
       
-      fillTable(title, url);
+      if (i === keys.length - 1)
+        fillTable(title, url, true);
+      else
+        fillTable(title, url, false);
     }
+    
+    ready();
   }
 });
 
-function fillTable(title, url) {
+function fillTable(title, url, recent) {
   const table = document.getElementById('table');
-  
   let row = table.insertRow(1);
+  
+  if (recent === true)
+    row.setAttribute('id', 'recent');
+  
   let cellTitle = row.insertCell(0);
   let cellUrl = row.insertCell(1);
   

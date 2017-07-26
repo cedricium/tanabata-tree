@@ -12,3 +12,13 @@
 #logo {
   font-size: 200%;
 }
+
+@keyframes selected {
+  0% { background-color: mediumspringgreen; }
+  100 { background-color: transparent; }
+}
+
+:target {
+  background-color: transparent;
+  animation: selected 1500ms ease-in;
+}
