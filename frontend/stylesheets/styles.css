@@ -13,12 +13,35 @@
   font-size: 200%;
 }
 
-@keyframes selected {
-  0% { background-color: mediumspringgreen; }
-  100 { background-color: transparent; }
+/* #recent row highlighted (closest representation of the
+ *   'is-selected' class in v0.4.2 from Bulma
+ */
+.base {
+  background-color: hsl(171, 100%, 41%);
+  transition: background-color ease 1500ms;
 }
 
-:target {
+#recent.base td {
+  color: #ffffff;
+  transition: color ease 1500ms;
+}
+
+.base * {
+  color: #ffffff;
+  transition: color ease 1500ms;
+}
+
+/* #recent row back to it's original appearance using CSS
+ *   transitions
+ */
+.active {
   background-color: transparent;
-  animation: selected 1500ms ease-in;
+}
+
+#recent.active td {
+  color: #7a7a7a;
+}
+
+.active * {
+  color: hsl(171, 100%, 41%);
 }

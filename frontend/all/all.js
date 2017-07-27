@@ -1,5 +1,25 @@
+function highlight() {
+  // gets recently-added tanzaku
+  let recent = document.getElementById('recent');
+  
+  // gives recent tanzaku the 'base' class (highlighted)
+  recent.classList.add('base');
+  
+  setTimeout(function() {
+    // 1/2 a sec. later, adds the 'active' class to begin the transition to
+    // the normal table row appearance
+    recent.classList.add('active');
+  }, 500);
+  
+  setTimeout(function() {
+    // 2 secs. after adding the 'active' class, the 'base' class is removed
+    // so any subsequent visits to the page will not highlight that tanzaku
+    recent.classList.remove('base');
+  }, 2500);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // making GET request
+  // making GET request to the 'all' route of the API
   let xml = new XMLHttpRequest();
   xml.addEventListener('load', requestListener);
   xml.open('GET', '../all');
@@ -9,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let data = this.responseText;
     let tanzakus = JSON.parse(data);
     
+    // with the received data from the server, completes the table
     let keys = Object.keys(tanzakus);
     for (let i = 0; i < keys.length; i++) {
       let title = keys[i];
@@ -20,7 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
         fillTable(title, url, false);
     }
     
-    ready();
+    // if the page url is 'tanzaku.html#recent', highlight the most recent
+    // tanzaku (this link originates from adding a tanzaku via
+    // 'add/index.html')
+    if (window.location.href.endsWith('recent'))
+      highlight();
   }
 });
 
