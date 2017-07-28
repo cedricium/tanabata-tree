@@ -28,6 +28,7 @@ app.get('/all', function(request, response) {
   response.send(urls);
 });
 
+app.enable('strict routing');
 
 /**
  * "add/" route - Used to add a tanzaku to tanabata-tree
@@ -57,7 +58,7 @@ function addUrl(request, response) {
     if (err) {
       reply = {
         tanzaku,
-        message: 'Tanzaku not added.',
+        message: 'tanzaku_upload_failed',
         status: 'failed'
       };
       
@@ -68,11 +69,55 @@ function addUrl(request, response) {
       
       reply = {
         tanzaku,
-        message: 'tanzaku added',
+        message: 'tanzaku_uploaded',
         status: 'success'
       };
 
       response.send(reply);
     }
   }
+}
+
+const meta = require('minimal-metainspector');
+
+/**
+ * "gettitle/" route - Used to obtain the title of the requested URL
+ *
+ * hostname:[port]/gettitle/[url]
+ * @params {string} url - the requested URL to get the title from
+ */
+app.get('/gettitle', getTitle); 
+function getTitle(request, response) {
+  let url = request.query.url;
+  
+  // get title using 'minimal-metainspector'
+  let client = new meta(url);
+  let title = '';
+  
+  client.on('fetch', () => {
+    title = client.title;
+    
+    reply = {
+      url: url,
+      title: title,
+      message: 'get_title',
+      status: 'success'
+    };
+    
+    response.send(reply);
+  });
+  
+  client.on('error', (err) => {
+    reply = {
+      url: url,
+      title: title,
+      message: 'get_title_failed',
+      status: 'failed',
+      err: err
+    };
+    
+    response.send(reply);
+  });
+
+  client.fetch();
 }

@@ -13,7 +13,8 @@
     <!-- CSS
     ---------------------------------------------------- -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" id="bulma" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css" />
+<!--    <link rel="stylesheet" id="bulma" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css" />-->
+    <link rel="stylesheet" href="../stylesheets/bulma.css">
     <link rel="stylesheet" href="../stylesheets/styles.css">
 
     <!-- Linked Pages
@@ -73,15 +74,16 @@
               </div>
 
               <!-- Title label and input field -->
-              <label class="label">Title</label>
-              <div class="control">
-                <input id="title" class="input" type="text" placeholder="Reddit - the front page of the internet">
+              <div id="titleDiv" class="control">
+                <label class="label">Title</label>
+                <input id="title" class="input is-medium" type="text" placeholder="Reddit - the front page of the internet">
               </div>
 
               <!-- URL label and input field -->
               <label class="label">URL</label>
               <div class="control">
-                <input id="url" class="input" type="url" placeholder="https://www.reddit.com">
+                <input id="url" class="input is-medium" type="url" placeholder="https://www.reddit.com">
+                <p id="url-help" class="help" style="visibility: hidden">'ello!</p>
               </div>
 
               <!-- Submit button -->
