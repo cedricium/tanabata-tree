@@ -25,6 +25,7 @@ let urls = JSON.parse(data);
  * @params {null} NONE
  */
 app.get('/all', function(request, response) {
+  response.status(200);
   response.send(urls);
 });
 
@@ -56,6 +57,7 @@ function addUrl(request, response) {
   
   function finished(err) {
     if (err) {
+      response.status(400);
       reply = {
         tanzaku,
         message: 'tanzaku_upload_failed',
@@ -67,6 +69,7 @@ function addUrl(request, response) {
     } else {
       console.log('tanzaku_added: ' + JSON.stringify(tanzaku));
       
+      response.status(201);
       reply = {
         tanzaku,
         message: 'tanzaku_uploaded',
@@ -97,6 +100,7 @@ function getTitle(request, response) {
   client.on('fetch', () => {
     title = client.title;
     
+    response.status(200);
     reply = {
       url: url,
       title: title,
@@ -108,6 +112,7 @@ function getTitle(request, response) {
   });
   
   client.on('error', (err) => {
+    response.status(400);
     reply = {
       url: url,
       title: title,
