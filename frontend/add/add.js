@@ -47,14 +47,14 @@ btnAdd.addEventListener('click', submit);
 function submit() {
   btnAdd.classList.add('is-loading');
   
-  let title = document.getElementById('title').value;
-  let url = document.getElementById('url').value;
+  let titleContext = title.value;
+  let urlContext = url.value;
   
-  title = title.trim();
-  url = url.trim();
+  titleContext = titleContext.trim();
+  urlContext = urlContext.trim();
   
   // error handling (checking for empty values)
-  if (title.length === 0 || url.length === 0) {
+  if (titleContext.length === 0 || urlContext.length === 0) {
     errorNotif.style.visibility = 'visible';
     btnAdd.classList.remove('is-loading');
     return false;
@@ -63,7 +63,8 @@ function submit() {
   // making GET request
   let xml = new XMLHttpRequest();
   xml.addEventListener('load', requestListener);
-  xml.open('GET', '../add/' + title + '/' + url);
+  xml.open('GET', '../tanzaku' + '?title=' + titleContext + '&url=' +
+           encodeURIComponent(urlContext));
   xml.send();
   
   function requestListener() {

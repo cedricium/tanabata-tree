@@ -38,11 +38,10 @@ app.enable('strict routing');
  * @param {string} title - the title of the URL being added
  * @param {string} url - the URL to be added
  */
-app.get('/add/:title/*', addUrl);
+app.get('/tanzaku', addUrl);
 function addUrl(request, response) {
-  let data = request.params;
-  let title = data.title;
-  let url = data[0];
+  let title = request.query.title;
+  let url = request.query.url;
   
   let reply;
   let tanzaku = {
