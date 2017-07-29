@@ -22,7 +22,8 @@
   "dependencies": {
     "connect-wwwhisper": "*",
     "express": "^4.15.3",
-    "minimal-metainspector": "^1.1.1"
+    "minimal-metainspector": "^1.1.1",
+    "pg": "^7.0.2"
   },
   "engines": {
     "node": "6.11.0"

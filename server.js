@@ -1,5 +1,8 @@
 const fs = require('fs');
 
+const { Client } = require('pg');
+const connectionString = 'postgresql://cedricamaya@localhost:5432/sample_db';
+
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,8 +17,8 @@ app.use(express.static('frontend/add'));
 app.listen(port);
 console.log('Server started at localhost:' + port);
 
-let data = fs.readFileSync('tanzakus.json');
-let urls = JSON.parse(data);
+//let data = fs.readFileSync('tanzakus.json');
+//let urls = JSON.parse(data);
 
 
 /**
@@ -26,7 +29,22 @@ let urls = JSON.parse(data);
  */
 app.get('/all', function(request, response) {
   response.status(200);
-  response.send(urls);
+  
+  const client = new Client({
+    connectionString: connectionString,
+  });
+
+  client.connect();
+
+  client.query('SELECT * FROM tanzakus', (err, res) => {
+    let tanzakus = {};
+  
+    for (var i = 0; i < res.rows.length; i++)
+      tanzakus[res.rows[i].title] = res.rows[i].url;
+
+    client.end();
+    response.send(tanzakus);
+  });
 });
 
 app.enable('strict routing');
@@ -49,10 +67,25 @@ function addUrl(request, response) {
     url: url
   };
   
-  urls[title] = url;
-  let tanzakuData = JSON.stringify(urls, null, 2);
+//  urls[title] = url;
+//  let tanzakuData = JSON.stringify(urls, null, 2);
   
-  fs.writeFile('tanzakus.json', tanzakuData, finished);
+//  fs.writeFile('tanzakus.json', tanzakuData, finished);
+  
+  const client = new Client({
+    connectionString: connectionString,
+  });
+
+  client.connect();
+
+  client.query('INSERT INTO tanzakus (title, url) VALUES ($1, $2)', [title, url], (err, res) => {
+    if (err)
+      return console.error('error with PostgreSQL database', err);
+    
+    client.end();
+    finished();
+  });
+  
   
   function finished(err) {
     if (err) {
