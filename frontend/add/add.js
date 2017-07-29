@@ -57,6 +57,7 @@ function submit() {
   if (titleContext.length === 0 || urlContext.length === 0) {
     errorNotif.style.visibility = 'visible';
     btnAdd.classList.remove('is-loading');
+    btnAdd.classList.add('is-disabled');
     return false;
   }
   
@@ -81,6 +82,9 @@ function responseHandler(response) {
   if (response.status === 'success') {
     switch (response.message) {
       case 'tanzaku_uploaded':
+        title.classList.add('is-disabled');
+        url.classList.add('is-disabled');
+        
         btnAdd.classList.remove('is-loading');
         // change button to direct to tanzakus list
         btnAdd.innerHTML = 'Success! Click again to view tanzakus.';
@@ -90,6 +94,7 @@ function responseHandler(response) {
       case 'get_title':
         title.value = response.title;
         
+        btnAdd.classList.remove('is-disabled');
         url.classList.remove('is-danger');
         urlHelp.style.visibility = 'hidden';
         break;
@@ -99,6 +104,8 @@ function responseHandler(response) {
   if (response.status === 'failed') {
     switch (response.message) {
       case 'get_title_failed':
+        btnAdd.classList.add('is-disabled');
+        
         title.setAttribute('placeholder', 'Invalid URL!');
         title.value = '';
         url.classList.add('is-danger');
