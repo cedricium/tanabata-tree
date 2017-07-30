@@ -1,10 +1,13 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const wwwhisper = require('connect-wwwhisper');
-const { Client } = require('pg');
+const pg = require('pg');
+const { Client } = pg;
+
+pg.defaults.ssl = true;
 
 // connection string to PostgreSQL database
-const connectionString = 'postgresql://cedricamaya@localhost:5432/sample_db';
+const connectionString = process.env.DATABASE_URL;
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +21,8 @@ app.use(bodyParser.json());
 
 app.use(express.static('frontend'));
 app.use(express.static('frontend/add'));
+
+app.enable('strict routing');
 
 app.listen(port);
 console.log('Server started at localhost:' + port);
@@ -34,10 +39,11 @@ app.get('/all', function(request, response) {
   const client = new Client({
     connectionString: connectionString,
   });
-
+  
+  pg.defaults.ssl = true;
   client.connect();
 
-  client.query('SELECT * FROM tanzakus', (err, res) => {
+  client.query('SELECT * FROM tanzakus;', (err, res) => {
     let tanzakus = {};
   
     for (var i = 0; i < res.rows.length; i++)
@@ -48,8 +54,6 @@ app.get('/all', function(request, response) {
   });
 });
 
-app.enable('strict routing');
-
 /**
  * "add/" route - Used to add a tanzaku to tanabata-tree
  *
@@ -59,8 +63,6 @@ app.enable('strict routing');
  */
 app.post('/tanzaku', addUrl);
 function addUrl(request, response) {
-  console.log(request.body);
-  
   let title = request.body.title;
   let url = request.body.url;
   
@@ -74,9 +76,10 @@ function addUrl(request, response) {
     connectionString: connectionString,
   });
 
+  pg.defaults.ssl = true;
   client.connect();
 
-  client.query('INSERT INTO tanzakus (title, url) VALUES ($1, $2)', [title, url], (err, res) => {
+  client.query('INSERT INTO tanzakus (title, url) VALUES ($1, $2);', [title, url], (err, res) => {
     if (err)
       return console.error('error with PostgreSQL database', err);
     
