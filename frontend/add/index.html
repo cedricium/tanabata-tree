@@ -68,29 +68,27 @@
             </div>
 
             <div class="column is-6 is-offset-1 field">
-              <!-- Section title ('add tanzaku') -->
-              <div class="container">
-                <h2 class="title is-2">Add a <span class="tt-font">tanzaku</span></h2>
-              </div>
-
-              <!-- Title label and input field -->
-              <div id="titleDiv" class="control">
+              
+              <div class="box">
+                <div class="control">
+                  <h2 class="title is-2">Add a <span class="tt-font">tanzaku</span></h2>
+                </div>
+                
                 <label class="label">Title</label>
-                <input id="title" class="input is-medium" type="text" placeholder="Reddit - the front page of the internet">
-              </div>
-
-              <!-- URL label and input field -->
-              <label class="label">URL</label>
-              <div class="control">
-                <input id="url" class="input is-medium" type="url" placeholder="https://www.reddit.com">
+                <p class="control">
+                  <input id="title" class="input is-medium" type="text" placeholder="Leave blank to have title auto-populated.">
+                </p>
+                <label class="label">URL</label>
+                <p class="control">
+                  <input id="url" class="input is-medium" type="url" placeholder="tanabata-tree.herokuapp.com">
+                </p>
                 <p id="url-help" class="help" style="visibility: hidden">'ello!</p>
+                <hr>
+                <p class="control">
+                  <button id="add" class="button is-success is-medium">Submit</button>
+                </p>
               </div>
-
-              <!-- Submit button -->
-              <div class="control">
-                <button id="add" class="button is-success is-medium">Submit</button>
-              </div>
-
+              
               <div id="error" class="notification is-danger" style="visibility: hidden">
                 <button id="remove" class="delete"></button>
                 Oops! Looks like you forgot one or more of the above fields. Make sure they are both filled out and try resubmitting.
