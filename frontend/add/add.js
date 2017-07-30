@@ -65,7 +65,7 @@ function submit() {
   xhr.addEventListener('load', requestListener);
   xhr.open('POST', '/tanzaku', true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
-  xhr.send('title=' + titleContext + '&url=' + encodeURIComponent(urlContext));
+  xhr.send('title=' + encodeURIComponent(titleContext) + '&url=' + encodeURIComponent(urlContext));
 
   function requestListener() {
     let data = this.responseText;
