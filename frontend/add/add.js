@@ -23,10 +23,10 @@ textInput.onkeyup = function (e) {
 
 function getTitle(text) {
   // make GET request to server for title
-  let xml = new XMLHttpRequest();
-  xml.addEventListener('load', requestListener);
-  xml.open('GET', '../gettitle/?url=' + encodeURIComponent(text));
-  xml.send();
+  let xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', requestListener);
+  xhr.open('GET', '../gettitle/?url=' + encodeURIComponent(text));
+  xhr.send();
   
   function requestListener() {
     let data = this.responseText;
@@ -61,13 +61,12 @@ function submit() {
     return false;
   }
   
-  // making GET request
-  let xml = new XMLHttpRequest();
-  xml.addEventListener('load', requestListener);
-  xml.open('GET', '../tanzaku' + '?title=' + titleContext + '&url=' +
-           encodeURIComponent(urlContext));
-  xml.send();
-  
+  let xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', requestListener);
+  xhr.open('POST', '/tanzaku', true);
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
+  xhr.send('title=' + titleContext + '&url=' + encodeURIComponent(urlContext));
+
   function requestListener() {
     let data = this.responseText;
     let response = JSON.parse(data);
@@ -106,7 +105,7 @@ function responseHandler(response) {
       case 'get_title_failed':
         btnAdd.classList.add('is-disabled');
         
-        title.setAttribute('placeholder', 'Invalid URL!');
+        title.setAttribute('placeholder', 'Cannot retrieve title - please enter a valid URL.');
         title.value = '';
         url.classList.add('is-danger');
         

@@ -20,10 +20,10 @@ function highlight() {
 
 document.addEventListener('DOMContentLoaded', () => {
   // making GET request to the 'all' route of the API
-  let xml = new XMLHttpRequest();
-  xml.addEventListener('load', requestListener);
-  xml.open('GET', '../all');
-  xml.send();
+  let xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', requestListener);
+  xhr.open('GET', '../all');
+  xhr.send();
   
   function requestListener() {
     let data = this.responseText;
