@@ -1,25 +1,26 @@
-const fs = require('fs');
-
+const bodyParser = require('body-parser');
+const express = require('express');
+const wwwhisper = require('connect-wwwhisper');
 const { Client } = require('pg');
+
+// connection string to PostgreSQL database
 const connectionString = 'postgresql://cedricamaya@localhost:5432/sample_db';
 
-const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
 // wwwhisper authentication
-const wwwhisper = require('connect-wwwhisper');
 app.use(wwwhisper());
+
+// set-up of body-parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(express.static('frontend'));
 app.use(express.static('frontend/add'));
 
 app.listen(port);
 console.log('Server started at localhost:' + port);
-
-//let data = fs.readFileSync('tanzakus.json');
-//let urls = JSON.parse(data);
-
 
 /**
  * "all/" route - Used to obtain all tanzakus in tanabata-tree
@@ -56,21 +57,18 @@ app.enable('strict routing');
  * @param {string} title - the title of the URL being added
  * @param {string} url - the URL to be added
  */
-app.get('/tanzaku', addUrl);
+app.post('/tanzaku', addUrl);
 function addUrl(request, response) {
-  let title = request.query.title;
-  let url = request.query.url;
+  console.log(request.body);
+  
+  let title = request.body.title;
+  let url = request.body.url;
   
   let reply;
   let tanzaku = {
     title: title,
     url: url
   };
-  
-//  urls[title] = url;
-//  let tanzakuData = JSON.stringify(urls, null, 2);
-  
-//  fs.writeFile('tanzakus.json', tanzakuData, finished);
   
   const client = new Client({
     connectionString: connectionString,
