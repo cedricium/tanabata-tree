@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/cedricium/tanabata-tree#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "connect-wwwhisper": "*",
     "express": "^4.15.3",
     "minimal-metainspector": "^1.1.1",
