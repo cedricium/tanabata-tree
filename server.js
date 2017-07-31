@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const meta = require('minimal-metainspector');
 const wwwhisper = require('connect-wwwhisper');
+
 const pg = require('pg');
 const { Client } = pg;
 
@@ -27,21 +29,37 @@ app.enable('strict routing');
 app.listen(port);
 console.log('Server started at localhost:' + port);
 
+const apiRoute = '/api/v1/';
+
 /**
  * "all/" route - Used to obtain all tanzakus in tanabata-tree
  *
  * hostname:[port]/all
  * @params {null} NONE
  */
-app.get('/all', function(request, response) {
+app.get(apiRoute + 'tanzakus', function(request, response) {
   response.status(200);
   
   const client = new Client({
-    connectionString: connectionString,
+//    connectionString: connectionString
+    connectionString: "this shouldn't work!"
   });
   
   pg.defaults.ssl = true;
-  client.connect();
+  client.connect((err) => {
+    if (err) {
+      response.status(500);
+      
+      let reply = {
+        status: 500,
+        error: 'Error connecting to database.'
+      };
+      
+      response.send(reply);
+      console.error(err);
+      client.end();
+    }
+  });
 
   client.query('SELECT * FROM tanzakus;', (err, res) => {
     let tanzakus = {};
@@ -61,7 +79,7 @@ app.get('/all', function(request, response) {
  * @param {string} title - the title of the URL being added
  * @param {string} url - the URL to be added
  */
-app.post('/tanzaku', addUrl);
+app.post(apiRoute + 'tanzakus', addUrl);
 function addUrl(request, response) {
   let title = request.body.title;
   let url = request.body.url;
@@ -73,11 +91,25 @@ function addUrl(request, response) {
   };
   
   const client = new Client({
-    connectionString: connectionString,
+//    connectionString: connectionString
+    connectionString: "this shouldn't work!"
   });
 
   pg.defaults.ssl = true;
-  client.connect();
+  client.connect((err) => {
+    if (err) {
+      response.status(500);
+      
+      let reply = {
+        status: 500,
+        error: 'Error connecting to database.'
+      };
+      
+      response.send(reply);
+      console.error(err);
+      client.end();
+    }
+  });
 
   client.query('INSERT INTO tanzakus (title, url) VALUES ($1, $2);', [title, url], (err, res) => {
     if (err)
@@ -114,15 +146,13 @@ function addUrl(request, response) {
   }
 }
 
-const meta = require('minimal-metainspector');
-
 /**
  * "gettitle/" route - Used to obtain the title of the requested URL
  *
  * hostname:[port]/gettitle/[url]
  * @params {string} url - the requested URL to get the title from
  */
-app.get('/gettitle', getTitle); 
+app.get(apiRoute + 'actions/get-title', getTitle); 
 function getTitle(request, response) {
   let url = request.query.url;
   

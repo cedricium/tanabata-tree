@@ -22,18 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // making GET request to the 'all' route of the API
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', requestListener);
-  xhr.open('GET', '../all');
+  xhr.open('GET', '../api/v1/tanzakus');
   xhr.send();
   
   function requestListener() {
     let data = this.responseText;
-    let tanzakus = JSON.parse(data);
+    let response = JSON.parse(data);
+    
+    // Error handling of bad database connection
+    if (response.error) {
+      let errorMessage = "Error connecting to the database. Please try again later. If the issue persists, ensure you can make a manual connection to the database to verify whether or not it is a database issue.";
+      
+      createModal(errorMessage);
+      return;
+    }
     
     // with the received data from the server, completes the table
-    let keys = Object.keys(tanzakus);
+    let keys = Object.keys(response);
     for (let i = 0; i < keys.length; i++) {
       let title = keys[i];
-      let url = tanzakus[title];
+      let url = response[title];
       
       if (i === keys.length - 1)
         fillTable(title, url, true);

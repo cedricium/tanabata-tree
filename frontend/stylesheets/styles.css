@@ -5,6 +5,18 @@
   font-style: normal;
 }
 
+/*
+ * Altered Bulma default classes
+ */
+.modal-card-head {
+  background-color: hsl(348, 100%, 61%);
+}
+
+.modal-card-head * {
+  color: #fff;
+}
+
+
 .tt-font {
   font-family: 'Lemonada', serif;
 }

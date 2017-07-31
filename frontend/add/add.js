@@ -25,7 +25,7 @@ function getTitle(text) {
   // make GET request to server for title
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', requestListener);
-  xhr.open('GET', '../gettitle/?url=' + encodeURIComponent(text));
+  xhr.open('GET', '../api/v1/actions/get-title?url=' + encodeURIComponent(text));
   xhr.send();
   
   function requestListener() {
@@ -63,13 +63,22 @@ function submit() {
   
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', requestListener);
-  xhr.open('POST', '/tanzaku', true);
+  xhr.open('POST', '../api/v1/tanzakus', true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
   xhr.send('title=' + encodeURIComponent(titleContext) + '&url=' + encodeURIComponent(urlContext));
 
   function requestListener() {
     let data = this.responseText;
     let response = JSON.parse(data);
+    
+    // Error handling of bad database connection
+    if (response.error) {
+      let errorMessage = "Error connecting to the database. Please try again later. If the issue persists, ensure you can make a manual connection to the database to verify whether or not it is a database issue.";
+      
+      createModal(errorMessage);
+      btnAdd.classList.remove('is-loading');
+      return;
+    }
     
     responseHandler(response);
   }
