@@ -1,3 +1,22 @@
+let dropdown = document.getElementById('dropdown');
+dropdown.addEventListener('change', () => {
+//  console.log(dropdown.options[dropdown.selectedIndex].text);
+  let selected = dropdown.options[dropdown.selectedIndex].text;
+  
+  switch(selected) {
+    case 'Recently Added':
+      console.log('Option w/ value of "' + selected + '" has been chosen.');
+      break;
+    case 'Archived':
+      console.log('Option w/ value of "' + selected + '" has been chosen.');
+      break;
+    case 'All':
+      console.log('Option w/ value of "' + selected + '" has been chosen.');
+      break;
+  }
+  
+});
+
 function highlight() {
   // gets recently-added tanzaku
   let recent = document.getElementById('recent');
@@ -39,14 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // with the received data from the server, completes the table
     let keys = Object.keys(response);
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = keys.length - 1; i >= 0; i--) {
       let title = keys[i];
-      let url = response[title];
+      let url = decodeURI(response[title]);
       
-      if (i === keys.length - 1)
-        fillTable(title, url, true);
-      else
-        fillTable(title, url, false);
+      createCard(title, url);
     }
     
     // if the page url is 'tanzaku.html#recent', highlight the most recent
@@ -56,6 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
       highlight();
   }
 });
+
+
+function createCard(title, url) {
+  const cardDiv = document.getElementById('card-div');
+  
+  let card = document.createElement('div');
+  card.classList.add('card');
+  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><a href="' + url + '">' + url + '</a><br></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a class="card-footer-item">Delete</a></footer></div>';
+  
+  cardDiv.appendChild(card);
+}
+
 
 function fillTable(title, url, recent) {
   const table = document.getElementById('table');

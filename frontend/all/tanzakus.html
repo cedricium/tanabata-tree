@@ -26,7 +26,7 @@
   </head>
   <body>
   
-    <section class="hero is-fullheight is-default is-bold">
+    <section class="hero is-default is-bold">
       <div class="hero-head">
         <div class="container">
           <nav class="nav has-shadow">
@@ -62,22 +62,66 @@
           <div class="columns is-vcentered">
 
             <div class="column is-8 is-offset-2">
-              <!-- Section title ('add tanzaku') -->
-              <div class="control">
-                <h2 class="title is-2">Your <span class="tt-font">tanzakus</span></h2>
+              
+              <nav class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <div class="control">
+                      <h2 class="title is-2">Your <span class="tt-font">tanzakus</span></h2>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="control">
+                      <div class="select is-fullwidth">
+                        <select id="dropdown">
+                          <option>Recently Added</option>
+                          <option>Archived</option>
+                          <option>All</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+              
+              <div id="card-div" class="container">
+                
+                <!-- CARDS GO HERE -->
+                
               </div>
 
-              <table id="table" class="table">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>URL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- dynamically added tanzakus added here -->
-                </tbody>
-              </table>
+<!--            OUTLINE OF FINISHED CARD
+              <div class="card">
+                <header class="card-header">
+                  <a href="https://google.com" class="card-header-icon">
+                    <span class="icon">
+                      🎋
+                    </span>
+                  </a>
+                  <p class="card-header-title">
+                    Literally Canvas — Literally Canvas v0.4.14 docs - HTML5 drawing board - MS Paint in your web browser
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    <p>
+                      Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for.
+                    </p>
+                    <a href="https://google.com">https://www.google.com</a>
+                    <br>
+                    <small>11:09 PM - 1 Jan 2016</small>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="" class="card-footer-item">View</a>
+                  <a class="card-footer-item">Archive</a>
+                  <a class="card-footer-item">Delete</a>
+                </footer>
+              </div>
+-->
 
             </div>            
           </div>
