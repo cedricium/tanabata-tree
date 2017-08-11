@@ -30,8 +30,8 @@ app.enable('strict routing');
 app.listen(port);
 console.log('Server started at localhost:' + port);
 
-const apiRoute = '/api/v1/';    // look at using Express Routers
-                                // https://stackoverflow.com/a/29993694
+const apiRoute = '/api/v1/';
+
 
 /**
  * "all/" route - Used to obtain all tanzakus in tanabata-tree
@@ -105,8 +105,7 @@ function addUrl(request, response) {
       url = request.body.url,
       desc = request.body.desc,
       id = '';
-  
-  // use node package 'uuid' here to create uuid based of url
+
   id = uuidv5(url, uuidv5.URL);
   
   let reply;

@@ -57,9 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     let size = Object.keys(response).length;
-    
-    // with the received data from the server, completes the table
-//    let keys = Object.keys(response);
+
     for (let i = size - 1; i >= 0; i--) {
       let url =         response[i].url;
       let title =       response[i].title;
@@ -72,11 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
       createCard(title, url, desc, created_at);
     }
     
-    // if the page url is 'tanzaku.html#recent', highlight the most recent
-    // tanzaku (this link originates from adding a tanzaku via
-    // 'add/index.html')
-//    if (window.location.href.endsWith('recent'))
-//      highlight();
+    // if (window.location.href.endsWith('recent'))
+    //  highlight();
   }
 });
 
