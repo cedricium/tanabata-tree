@@ -2,6 +2,8 @@ const errorNotif = document.getElementById('error');
 const title = document.getElementById('title');
 const url = document.getElementById('url');
 
+let desc = '';
+
 // Get the input box to target for timer
 var textInput = document.getElementById('url');
 
@@ -17,15 +19,15 @@ textInput.onkeyup = function (e) {
 
   // Make a new timeout set to go off in 800ms
   timeout = setTimeout( () => {
-    getTitle(textInput.value);
+    getMetaData(textInput.value);
   }, 1500);
 };
 
-function getTitle(text) {
+function getMetaData(text) {
   // make GET request to server for title
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', requestListener);
-  xhr.open('GET', '../api/v1/actions/get-title?url=' + encodeURIComponent(text));
+  xhr.open('GET', '../api/v1/actions/get-meta?url=' + encodeURIComponent(text));
   xhr.send();
   
   function requestListener() {
@@ -65,7 +67,7 @@ function submit() {
   xhr.addEventListener('load', requestListener);
   xhr.open('POST', '../api/v1/tanzakus', true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');  
-  xhr.send('title=' + encodeURIComponent(titleContext) + '&url=' + encodeURIComponent(urlContext));
+  xhr.send('title=' + encodeURIComponent(titleContext) + '&url=' + encodeURIComponent(urlContext) + '&desc=' + desc);
 
   function requestListener() {
     let data = this.responseText;
@@ -100,7 +102,8 @@ function responseHandler(response) {
         btnAdd.addEventListener('click', viewTanzakus);
         break;
       case 'get_title':
-        title.value = response.title;
+        title.value = response.meta.title;
+        desc = response.meta.description;
         
         btnAdd.classList.remove('is-disabled');
         url.classList.remove('is-danger');

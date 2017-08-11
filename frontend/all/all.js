@@ -56,30 +56,76 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     
+    let size = Object.keys(response).length;
+    
     // with the received data from the server, completes the table
-    let keys = Object.keys(response);
-    for (let i = keys.length - 1; i >= 0; i--) {
-      let title = keys[i];
-      let url = decodeURI(response[title]);
+//    let keys = Object.keys(response);
+    for (let i = size - 1; i >= 0; i--) {
+      let url =         response[i].url;
+      let title =       response[i].title;
+      let desc =        response[i].description;
+      let created_at =  response[i].created_at;
+
+      if (desc === 'undefined')
+        desc = title;
       
-      createCard(title, url);
+      createCard(title, url, desc, created_at);
     }
     
     // if the page url is 'tanzaku.html#recent', highlight the most recent
     // tanzaku (this link originates from adding a tanzaku via
     // 'add/index.html')
-    if (window.location.href.endsWith('recent'))
-      highlight();
+//    if (window.location.href.endsWith('recent'))
+//      highlight();
   }
 });
 
 
-function createCard(title, url) {
+function convertUTC(date) {
+  let dateTime = new Date(date);
+  let locale = 'en-US';
+  
+  let formatOptions = {
+    day:    '2-digit', 
+    month:  '2-digit', 
+    year:   'numeric',
+    hour:   '2-digit', 
+    minute: '2-digit',
+    hour12: true
+  };
+  let dateTimeString = dateTime.toLocaleDateString(locale, formatOptions);
+
+  dateTimeString = dateTimeString.replace(',', '');
+  
+  let MMDDYYYY = dateTimeString.substr(0, 10),
+      formattedDate = '';
+  let time = dateTimeString.substr(11);
+
+  let objDate = new Date(MMDDYYYY),
+      mon = objDate.toLocaleString(locale, {month: 'short'}),
+      dd = MMDDYYYY.substr(3, 2),
+      yyyy = MMDDYYYY.substr(6, 4);
+  
+  formattedDate = time + ' - ' + dd + ' ' + mon + ' ' + yyyy;
+
+  return formattedDate;
+}
+
+
+function createCard(title, url, desc, created_at) {
   const cardDiv = document.getElementById('card-div');
+  let rootUrl = '';
+  
+  let formattedTime = convertUTC(created_at);
+  
+  if (url.length > 52)
+    rootUrl = url.substr(0, 50) + '...';
+  else
+    rootUrl = url;
   
   let card = document.createElement('div');
   card.classList.add('card');
-  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><a href="' + url + '">' + url + '</a><br></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a class="card-footer-item">Delete</a></footer></div>';
+  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a class="card-footer-item">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);
 }
