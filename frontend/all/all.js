@@ -38,6 +38,9 @@ function highlight() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader');
+  loader.classList.remove('hidden');
+  
   // making GET request to the 'all' route of the API
   let xhr = new XMLHttpRequest();
   xhr.addEventListener('load', requestListener);
@@ -69,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       createCard(title, url, desc, created_at);
     }
+    
+    loader.classList.add('hidden');
     
     // if (window.location.href.endsWith('recent'))
     //  highlight();
