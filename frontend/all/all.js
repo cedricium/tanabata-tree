@@ -1,21 +1,20 @@
-let dropdown = document.getElementById('dropdown');
-dropdown.addEventListener('change', () => {
-//  console.log(dropdown.options[dropdown.selectedIndex].text);
-  let selected = dropdown.options[dropdown.selectedIndex].text;
-  
-  switch(selected) {
-    case 'Recently Added':
-      console.log('Option w/ value of "' + selected + '" has been chosen.');
-      break;
-    case 'Archived':
-      console.log('Option w/ value of "' + selected + '" has been chosen.');
-      break;
-    case 'All':
-      console.log('Option w/ value of "' + selected + '" has been chosen.');
-      break;
-  }
-  
-});
+//let dropdown = document.getElementById('dropdown');
+//dropdown.addEventListener('change', () => {
+////  console.log(dropdown.options[dropdown.selectedIndex].text);
+//  let selected = dropdown.options[dropdown.selectedIndex].text;
+//  
+//  switch(selected) {
+//    case 'Recently Added':
+//      console.log('Option w/ value of "' + selected + '" has been chosen.');
+//      break;
+//    case 'Archived':
+//      console.log('Option w/ value of "' + selected + '" has been chosen.');
+//      break;
+//    case 'All':
+//      console.log('Option w/ value of "' + selected + '" has been chosen.');
+//      break;
+//  }
+//});
 
 function highlight() {
   // gets recently-added tanzaku
@@ -53,32 +52,67 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Error handling of bad database connection
     if (response.error) {
+      let errorTitle = 'Something went wrong! &#128557;';
       let errorMessage = "Error connecting to the database. Please try again later. If the issue persists, ensure you can make a manual connection to the database to verify whether or not it is a database issue.";
       
-      createModal(errorMessage);
+      createModal(errorTitle, errorMessage, false);
       return;
     }
     
     let size = Object.keys(response).length;
 
     for (let i = size - 1; i >= 0; i--) {
+      let id =          response[i].id;
       let url =         response[i].url;
       let title =       response[i].title;
       let desc =        response[i].description;
       let created_at =  response[i].created_at;
+      
+      if (!id)
+        id = '0101010';
 
       if (desc === 'undefined')
         desc = title;
       
-      createCard(title, url, desc, created_at);
+      createCard(title, url, desc, created_at, id);
     }
     
     loader.classList.add('hidden');
+    
+    let deleteBtns = document.getElementsByClassName('_delete');
+    for (var i = 0; i < deleteBtns.length; i++)
+      deleteBtns[i].addEventListener('click', deleteTanzaku);
     
     // if (window.location.href.endsWith('recent'))
     //  highlight();
   }
 });
+
+function deleteTanzaku() {
+  let id = this.getAttribute('data-id');
+  
+  // confirm deletion of tanzaku
+  let deleteTitle = 'Finished with this tanzaku?';
+  let deleteMessage = 'Are you sure you want to delete this tanzaku?';
+  
+  createModal(deleteTitle, deleteMessage, true, id);
+}
+
+function continueDeletion(should_delete, id) {
+  let apiDeleteUrl = '../api/v1/tanzakus/' + id;
+  
+  if (should_delete) {
+    let xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', requestListener);
+    xhr.open('DELETE', apiDeleteUrl);
+    xhr.send();
+  } else
+    return;
+  
+  function requestListener() {
+    window.location.href = '/all/tanzakus.html';
+  }
+}
 
 
 function convertUTC(date) {
@@ -112,7 +146,7 @@ function convertUTC(date) {
 }
 
 
-function createCard(title, url, desc, created_at) {
+function createCard(title, url, desc, created_at, id) {
   const cardDiv = document.getElementById('card-div');
   let rootUrl = '';
   
@@ -125,7 +159,7 @@ function createCard(title, url, desc, created_at) {
   
   let card = document.createElement('div');
   card.classList.add('card');
-  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a class="card-footer-item">Delete</a></footer></div>';
+  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);
 }
