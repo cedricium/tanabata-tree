@@ -34,9 +34,8 @@ const apiRoute = '/api/v1/';
 
 
 /**
- * "all/" route - Used to obtain all tanzakus in tanabata-tree
+ * GET "api/v1/tanzakus/" - Used to obtain all tanzakus in tanabata-tree
  *
- * hostname:[port]/all
  * @params {null} NONE
  */
 app.get(apiRoute + 'tanzakus', function(request, response) {
@@ -93,11 +92,11 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
 });
 
 /**
- * "add/" route - Used to add a tanzaku to tanabata-tree
+ * POST "/api/v1/tanzakus/ - Used to add a tanzaku to tanabata-tree
  *
- * hostname:[port]/add/[title]/[url]
  * @param {string} title - the title of the URL being added
  * @param {string} url - the URL to be added
+ * @param {string} desc - the description of the URL being added
  */
 app.post(apiRoute + 'tanzakus', addUrl);
 function addUrl(request, response) {
@@ -174,9 +173,69 @@ function addUrl(request, response) {
 }
 
 /**
- * "actions/get-meta" route - Used to obtain the meta data of the requested URL
+ * DELETE "/api/v1/tanzakus/:id" - Used to delete a tanzaku from tanabata-tree
  *
- * hostname:[port]/get-meta/[url]
+ * @param {string} id - the id of the tanzaku (in the form of a uuid)
+ */
+app.delete(apiRoute + 'tanzakus/:id', deleteTanzakuFromDatabase);
+function deleteTanzakuFromDatabase(request, response) {
+  let id = request.params.id;
+  
+  const client = new Client({
+    connectionString: connectionString
+  });
+  
+  pg.defaults.ssl = true;
+  client.connect((err) => {
+    if (err) {
+      response.status(500);
+      
+      let reply = {
+        status: 500,
+        error: 'Error connecting to database.'
+      };
+      
+      response.send(reply);
+      console.error(err);
+      client.end();
+    }
+  });
+    
+  client.query('DELETE FROM tanabata_tree WHERE id =  $1;', [id], (err, res) => {
+    if (err) {
+      finished(err);
+      client.end();
+      return console.error('error with PostgreSQL database', err);
+    }
+    
+    client.end();
+    finished();
+  });
+  
+  function finished(err) {
+    if (err) {
+      response.status(400);
+      reply = {
+        message: 'tanzaku_deletion_failed',
+        status: 'failed'
+      };
+      
+      response.send(reply);
+    } else {
+      response.status(204);
+      reply = {
+        message: 'tanzaku_deleted',
+        status: 'success'
+      };
+
+      response.send(reply);
+    }
+  }
+}
+
+/**
+ * GET "actions/get-meta/" - Used to obtain the meta data of the requested URL
+ *
  * @params {string} url - the requested URL to get meta data from
  */
 app.get(apiRoute + 'actions/get-meta', getMeta); 
