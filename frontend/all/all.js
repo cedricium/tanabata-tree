@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let errorTitle = 'Something went wrong! &#128557;';
       let errorMessage = "Error connecting to the database. Please try again later. If the issue persists, ensure you can make a manual connection to the database to verify whether or not it is a database issue.";
       
+      loader.classList.add('hidden');
       createModal(errorTitle, errorMessage, false);
       return;
     }
