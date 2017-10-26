@@ -100,6 +100,8 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
  */
 app.post(apiRoute + 'tanzakus', addUrl);
 function addUrl(request, response) {
+  const protocol_pattern = /^((http|https):\/\/)/;
+  
   let title = request.body.title,
       url = request.body.url,
       desc = request.body.desc,
@@ -134,6 +136,9 @@ function addUrl(request, response) {
       client.end();
     }
   });
+  
+  // Appends 'http://' to `url` if not already included - fixes #3
+  url = protocol_pattern.test(url) ? url : 'http://' + url;
 
   client.query('INSERT INTO tanabata_tree (id, url, title, description) VALUES ($1, $2, $3, $4);', [id, url, title, desc], (err, res) => {
     if (err) {
