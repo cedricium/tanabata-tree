@@ -1,41 +1,3 @@
-//let dropdown = document.getElementById('dropdown');
-//dropdown.addEventListener('change', () => {
-////  console.log(dropdown.options[dropdown.selectedIndex].text);
-//  let selected = dropdown.options[dropdown.selectedIndex].text;
-//  
-//  switch(selected) {
-//    case 'Recently Added':
-//      console.log('Option w/ value of "' + selected + '" has been chosen.');
-//      break;
-//    case 'Archived':
-//      console.log('Option w/ value of "' + selected + '" has been chosen.');
-//      break;
-//    case 'All':
-//      console.log('Option w/ value of "' + selected + '" has been chosen.');
-//      break;
-//  }
-//});
-
-function highlight() {
-  // gets recently-added tanzaku
-  let recent = document.getElementById('recent');
-  
-  // gives recent tanzaku the 'base' class (highlighted)
-  recent.classList.add('base');
-  
-  setTimeout(function() {
-    // 1/2 a sec. later, adds the 'active' class to begin the transition to
-    // the normal table row appearance
-    recent.classList.add('active');
-  }, 500);
-  
-  setTimeout(function() {
-    // 2 secs. after adding the 'active' class, the 'base' class is removed
-    // so any subsequent visits to the page will not highlight that tanzaku
-    recent.classList.remove('base');
-  }, 2500);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   loader.classList.remove('hidden');
@@ -83,9 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let deleteBtns = document.getElementsByClassName('_delete');
     for (var i = 0; i < deleteBtns.length; i++)
       deleteBtns[i].addEventListener('click', deleteTanzaku);
-    
-    // if (window.location.href.endsWith('recent'))
-    //  highlight();
   }
 });
 

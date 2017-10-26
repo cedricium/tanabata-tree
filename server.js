@@ -70,7 +70,6 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
         created_at = '';
   
     for (var i = 0; i < res.rows.length; i++) {
-      //tanzakus[res.rows[i].title] = res.rows[i].url;
       id = res.rows[i].id;
       url = res.rows[i].url;
       title = res.rows[i].title;
