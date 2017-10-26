@@ -159,7 +159,7 @@ function createCard(title, url, desc, created_at, id) {
   
   let card = document.createElement('div');
   card.classList.add('card');
-  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
+  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" target="_blank" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);
 }
