@@ -8,6 +8,9 @@
     "heroku-postgresql:hobby-dev",
     "wwwhisper:solo"
   ],
+  "scripts": {
+    "postdeploy": "npm install"
+  },
   "env": {
     "TZ": "America/Los_Angeles"
   }
