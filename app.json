@@ -1,0 +1,14 @@
+{
+  "name": "tanabata tree",
+  "author": "Cedric Amaya (@cedricium)",
+  "description": "Personal save-it-later/bookmarking app.",
+  "repository": "https://github.com/cedricium/tanabata-tree",
+  "logo": "https://raw.githubusercontent.com/cedricium/tanabata-tree/master/frontend/resources/tanabata-tree.png",
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "wwwhisper:solo"
+  ],
+  "env": {
+    "TZ": "America/Los_Angeles"
+  }
+}
