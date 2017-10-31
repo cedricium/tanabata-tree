@@ -1,3 +1,6 @@
+const LOAD_TANZAKUS_AMOUNT = 5;
+let tanzakusCurrentlyShowing = 0;
+
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   loader.classList.remove('hidden');
@@ -39,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
       
       createCard(title, url, desc, created_at, id);
     }
+
+    loadMore();
+    window.addEventListener('scroll', loadWhenBottomReached);
     
     loader.classList.add('hidden');
     
@@ -47,6 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
       deleteBtns[i].addEventListener('click', deleteTanzaku);
   }
 });
+
+
+function loadMore() {
+  let cards = document.getElementsByClassName('card-body');
+
+  for (let i = tanzakusCurrentlyShowing; i < tanzakusCurrentlyShowing + LOAD_TANZAKUS_AMOUNT; i++) {
+    if (!cards[i]) {
+      document.querySelector('.load-more').classList.add('hidden');
+      return;
+    }
+    
+    cards[i].classList.remove('hidden');
+  }
+
+  tanzakusCurrentlyShowing += LOAD_TANZAKUS_AMOUNT;
+}
+
+
+function loadWhenBottomReached() {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
+    loadMore(); 
+}
+
 
 function deleteTanzaku() {
   let id = this.getAttribute('data-id');
@@ -118,7 +147,8 @@ function createCard(title, url, desc, created_at, id) {
     rootUrl = url;
   
   let card = document.createElement('div');
-  card.classList.add('card');
+  card.classList.add('card-body');
+  card.classList.add('hidden');
   card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" target="_blank" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);

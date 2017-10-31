@@ -5,6 +5,12 @@
   font-style: normal;
 }
 
+.load-more {
+  margin: 5% auto;
+  text-align: center;
+  cursor: pointer;
+}
+
 /*
  * Altered Bulma default classes
  */
