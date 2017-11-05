@@ -1,9 +1,16 @@
 const LOAD_TANZAKUS_AMOUNT = 5;
 let tanzakusCurrentlyShowing = 0;
 
+let currentTanzakuFilter = '';
+
+let cards = document.getElementsByClassName('card-body');
+
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   loader.classList.remove('hidden');
+
+  currentTanzakuFilter = 'all';
+  document.getElementsByClassName('filter')[0].classList.add('is-active');
   
   // making GET request to the 'all' route of the API
   let xhr = new XMLHttpRequest();
@@ -28,11 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let size = Object.keys(response).length;
 
     for (let i = size - 1; i >= 0; i--) {
-      let id =          response[i].id;
-      let url =         response[i].url;
-      let title =       response[i].title;
-      let desc =        response[i].description;
-      let created_at =  response[i].created_at;
+      let id = response[i].id;
+      let url = response[i].url;
+      let title = response[i].title;
+      let desc = response[i].description;
+      let has_been_visited = response[i].has_been_visited;
+      let created_at = response[i].created_at;
       
       if (!id)
         id = '0101010';
@@ -40,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (desc === 'undefined')
         desc = title;
       
-      createCard(title, url, desc, created_at, id);
+      createCard(title, url, desc, has_been_visited, created_at, id);
     }
 
-    loadMore();
+    loadMore(tanzakusCurrentlyShowing, tanzakusCurrentlyShowing + LOAD_TANZAKUS_AMOUNT);
     window.addEventListener('scroll', loadWhenBottomReached);
     
     loader.classList.add('hidden');
@@ -55,25 +63,93 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function loadMore() {
-  let cards = document.getElementsByClassName('card-body');
+function loadMore(pos, len) {
+  limit = 0;
+  let limitIsMet = false;
 
-  for (let i = tanzakusCurrentlyShowing; i < tanzakusCurrentlyShowing + LOAD_TANZAKUS_AMOUNT; i++) {
-    if (!cards[i]) {
-      document.querySelector('.load-more').classList.add('hidden');
-      return;
-    }
-    
-    cards[i].classList.remove('hidden');
+  switch (currentTanzakuFilter) {
+    case 'archived':
+      while (limitIsMet === false) {
+        for (let i = pos; i < cards.length; i++) {
+          if (cards[i].dataset.visited === 'true' && cards[i].classList.contains('hidden')) {
+            cards[i].classList.remove('hidden');
+            limit++;
+
+            if (limit === len) {
+              limitIsMet = true;
+              break;
+            }
+          }
+          if (i === cards.length - 1)
+            document.querySelector('.load-more').classList.add('hidden');
+        }
+        break;
+      }
+      break;
+    case 'new':
+      while (limitIsMet === false) {
+        for (let i = pos; i < cards.length; i++) {
+          if (cards[i].dataset.visited === 'false' && cards[i].classList.contains('hidden')) {
+            cards[i].classList.remove('hidden');
+            limit++;
+
+            if (limit === len) {
+              limitIsMet = true;
+              break;
+            }
+          }
+          if (i === cards.length - 1)
+          document.querySelector('.load-more').classList.add('hidden');
+        }
+      }
+      break;
+    case 'all':
+      while (limitIsMet === false) {
+        for (let i = pos; i < cards.length; i++) {
+          if (cards[i].classList.contains('hidden')) {
+            cards[i].classList.remove('hidden');
+            limit++;
+
+            if (limit === len) {
+              limitIsMet = true;
+              break;
+            }
+          }
+          if (i === cards.length - 1)
+          document.querySelector('.load-more').classList.add('hidden');
+        }
+      }
+      break;
   }
-
   tanzakusCurrentlyShowing += LOAD_TANZAKUS_AMOUNT;
 }
 
 
 function loadWhenBottomReached() {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight)
-    loadMore(); 
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    loadMore(tanzakusCurrentlyShowing, LOAD_TANZAKUS_AMOUNT);
+  }
+}
+
+
+function activateFilter(e) {
+  let currentFilter = currentTanzakuFilter;
+  if (currentFilter === e.target.dataset.filter)
+    return;
+  
+  document.querySelector('.filter.is-active').classList.remove('is-active');
+  e.target.classList.add('is-active');
+  currentTanzakuFilter = e.target.dataset.filter
+  clearTanzakus();
+  loadMore(0, LOAD_TANZAKUS_AMOUNT);
+}
+
+
+function clearTanzakus() {
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.add('hidden');
+  }
+  tanzakusCurrentlyShowing = 0;
 }
 
 
@@ -135,7 +211,7 @@ function convertUTC(date) {
 }
 
 
-function createCard(title, url, desc, created_at, id) {
+function createCard(title, url, desc, has_been_visited, created_at, id) {
   const cardDiv = document.getElementById('card-div');
   let rootUrl = '';
   
@@ -149,26 +225,9 @@ function createCard(title, url, desc, created_at, id) {
   let card = document.createElement('div');
   card.classList.add('card-body');
   card.classList.add('hidden');
+  card.dataset.visited = has_been_visited;
+
   card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" target="_blank" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);
-}
-
-
-function fillTable(title, url, recent) {
-  const table = document.getElementById('table');
-  let row = table.insertRow(1);
-  
-  if (recent === true)
-    row.setAttribute('id', 'recent');
-  
-  let cellTitle = row.insertCell(0);
-  let cellUrl = row.insertCell(1);
-  
-  let anchor = document.createElement('a');
-  anchor.setAttribute('href', url);
-  anchor.innerHTML = url;
-  
-  cellTitle.innerHTML = title;
-  cellUrl.appendChild(anchor);
 }

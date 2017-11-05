@@ -67,6 +67,7 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
         url = '',
         title = '',
         desc = '',
+        has_been_visited = '',
         created_at = '';
   
     for (var i = 0; i < res.rows.length; i++) {
@@ -74,6 +75,7 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
       url = res.rows[i].url;
       title = res.rows[i].title;
       desc = res.rows[i].description;
+      has_been_visited = res.rows[i].been_visited;
       created_at = res.rows[i].created_at;
       
       tanzakus[i] = {
@@ -81,6 +83,7 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
         url: url,
         title: title,
         description: desc,
+        has_been_visited: has_been_visited,
         created_at: created_at
       };
     }

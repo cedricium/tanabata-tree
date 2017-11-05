@@ -11,28 +11,61 @@
   cursor: pointer;
 }
 
-/*
- * Altered Bulma default classes
- */
-.modal-card-head {
-  background-color: hsl(348, 100%, 61%);
+.hero-head {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  background-color: #FAFAFA;
+  box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1);
 }
 
-.modal-card-head * {
-  color: #fff;
+.hero-body { margin-top: 3rem; }
+
+.column:first-of-type { position: relative; }
+
+.column:nth-of-type(2) { z-index: 1; }
+
+.sidebar {    /* create media-query */
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: 74%;
+  width: 23%;
 }
+
+.panel:not(:last-child) { margin-bottom: 0.85rem; }
+
+.custom-footer {
+  margin: 0 0;
+  padding: 0 0;
+  font-size: 0.90rem;
+  text-align: center;
+}
+
+.custom-footer p { display: inline-block; }
+
+.content p:not(:last-child) { margin-bottom: 0.5em; }
+
+.custom-footer a { color: rgba(42, 40, 41, 0.65); }
+
+.custom-footer a:hover { color: rgba(42, 40, 41, 0.90); }
+
+.custom-footer p:not(:last-of-type)::after { content: " • " }
+
+.modal-card-head { background-color: hsl(348, 100%, 61%); }
+
+.modal-card-head * { color: #fff; }
 
 .card {
   margin-bottom: 10px;
+  border-radius: 3px;
+  box-shadow: 0 2px 2px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1)
 }
 
-.card-footer-item {
-  cursor: pointer;
-}
+.card-footer-item { cursor: pointer; }
 
-.card-footer-item:hover {
-  background-color: hsl(0, 0%, 96%);
-}
+.card-footer-item:hover { background-color: hsl(0, 0%, 96%); }
 
 .content .timestamp {
   float: right;

@@ -63,39 +63,61 @@
 
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered">
-
-            <div class="column is-8 is-offset-2">
-              <nav class="level">
-                <div class="level-left">
-                  <div class="level-item">
-                    <div class="control">
-                      <h2 class="title is-2">Your <span class="tt-font">tanzakus</span></h2>
-                    </div>
+          <div class="columns">
+            <div class="column">
+              <div class="sidebar">
+                <nav class="panel">
+                  <p class="panel-heading">
+                    Filter
+                  </p>
+                  <div class="panel-block">
+                    <p class="control has-icons-left">
+                      <input class="input is-small" type="text" placeholder="search">
+                    </p>
                   </div>
+                  <a class="panel-block filter" data-filter="all" onclick="activateFilter(event)">
+                    <span class="panel-icon">
+                      <i class="fa fa-list"></i>
+                    </span>
+                    All
+                  </a>
+                  <a class="panel-block filter" data-filter="new" onclick="activateFilter(event)">
+                    <span class="panel-icon">
+                      <i class="fa fa-star"></i>
+                    </span>
+                    New
+                  </a>
+                  <a class="panel-block filter" data-filter="archived" onclick="activateFilter(event)">
+                    <span class="panel-icon">
+                      <i class="fa fa-bookmark"></i>
+                    </span>
+                    Archived
+                  </a>
+                  <div class="panel-block">
+                    <button class="button is-primary is-outlined is-fullwidth">
+                      reset all filters
+                    </button>
+                  </div>
+                </nav>
+
+                <div class="content custom-footer">
+                  <p><a href="../">Home</a></p>
+                  <p><a href="#">About</a></p>
+                  <p><a id="version" href="https://www.github.com/cedricium/tanabata-tree">v</a></p>
+                  <p>made with <span class="icon is-small" style="color: #85144B; line-height: 1.5em;"><i class="fa fa-heart"></i></span> by <a href="#">Cedric Amaya</a></p>
                 </div>
-              </nav>
-              
-              <div id="card-div" class="container">
-              
-              <!-- CARDS GO HERE -->
-              
               </div>
-              <div class="load-more" onclick="loadMore()">Load More...</div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="hero-foot">
-        <div class="container">
-          
-          <div class="tabs">
-            <ul>
-              <li><a target="_blank" id="version" href="https://www.github.com/cedricium/tanabata-tree">version: </a></li>
-            </ul>
+              <div class="column is-9">
+                <div id="card-div" class="container">
+                
+                <!-- CARDS GO HERE -->
+                
+                </div>
+                <div class="load-more" onclick="loadMore()">Load More...</div>
+              </div>
           </div>
-
         </div>
       </div>
     </section>
