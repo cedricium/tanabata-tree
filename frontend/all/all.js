@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   currentTanzakuFilter = 'all';
   document.getElementsByClassName('filter')[0].classList.add('is-active');
+
+  const versionEl = document.getElementById('version');
+  let version = versionEl.textContent;
+  versionEl.href = 'https://www.github.com/cedricium/tanabata-tree/releases/tag/' + version;
   
   // making GET request to the 'all' route of the API
   let xhr = new XMLHttpRequest();
