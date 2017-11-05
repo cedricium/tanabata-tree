@@ -1,4 +1,4 @@
-const version = '2.1.3';
+const version = '2.2.3';
 let versionTag = document.getElementById('version');
 
 versionTag.innerHTML += version;
