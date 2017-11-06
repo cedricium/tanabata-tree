@@ -241,6 +241,64 @@ function deleteTanzakuFromDatabase(request, response) {
 }
 
 /**
+ * PUT "/api/v1/tanzakus/ - Used to update a tanzaku's 'has_been_visited' value
+ *
+ * @param {string} id - the id of the tanzaku (in the form of a uuid)
+ */
+app.put(apiRoute + 'tanzakus/:id', updateTanzaku);
+function updateTanzaku(request, response) {
+  let id = request.params.id;
+  
+  const client = new Client({
+    connectionString: connectionString
+  });
+  
+  pg.defaults.ssl = true;
+  client.connect((err) => {
+    if (err) {
+      response.status(500);
+      
+      let reply = {
+        status: 500,
+        error: 'Error connecting to database.'
+      };
+      
+      response.send(reply);
+      console.error(err);
+      client.end();
+    }
+  });
+
+  client.query('UPDATE tanabata_tree SET "been_visited"=TRUE WHERE id = $1;', [id], (err, res) => {
+    if (err) {
+      finished(err);
+      client.end();
+      return console.error('error with PostgreSQL database', err);
+    }
+    
+    client.end();
+    finished();
+  });
+
+  function finished(err) {
+    if (err) {
+      response.status(400);
+      reply = {
+        message: 'tanzaku_update_failed',
+        status: 'failed'
+      };
+    } else {
+      response.status(204);
+      reply = {
+        message: 'tanzaku_deleted',
+        status: 'success'
+      };
+    }
+    response.send(reply);
+  }
+}
+
+/**
  * GET "actions/get-meta/" - Used to obtain the meta data of the requested URL
  *
  * @params {string} url - the requested URL to get meta data from

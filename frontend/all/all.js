@@ -157,6 +157,24 @@ function clearTanzakus() {
 }
 
 
+function updateTanzaku(e) {
+  let visited = e.target.parentElement.parentElement.parentElement.dataset.visited;
+  let id = e.target.parentElement.dataset.id;
+
+  let apiUpdateTanzaku = '../api/v1/tanzakus/' + id
+
+  if (visited !== true) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', apiUpdateTanzaku);
+    xhr.onload = function () {
+      window.location.href = '/all/tanzakus.html';
+    }
+    xhr.send();
+  } else
+    return;
+}
+
+
 function deleteTanzaku() {
   let id = this.getAttribute('data-id');
   
@@ -231,7 +249,7 @@ function createCard(title, url, desc, has_been_visited, created_at, id) {
   card.classList.add('hidden');
   card.dataset.visited = has_been_visited;
 
-  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon" target="_blank"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer"><a href="' + url + '" target="_blank" class="card-footer-item">View</a><a data-id="' + id + '"class="card-footer-item _delete">Delete</a></footer></div>';
+  card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon" target="_blank"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer" data-id="' + id + '"><a href="' + url + '" target="_blank" class="card-footer-item" onclick="updateTanzaku(event)">View</a><a data-id="' + id + '" class="card-footer-item _delete">Delete</a></footer></div>';
   
   cardDiv.appendChild(card);
 }
