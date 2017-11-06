@@ -4,7 +4,8 @@
   "description": "Save links (called a 'tanzaku') for later viewing across multiple devices.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "node scripts/postinstall.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,10 @@
   "homepage": "https://github.com/cedricium/tanabata-tree#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "bulma": "0.3.2",
     "connect-wwwhisper": "*",
     "express": "^4.15.3",
+    "fs-extra": "^4.0.2",
     "minimal-metainspector": "^1.1.1",
     "pg": "^7.0.2",
     "uuid": "^3.1.0"

@@ -56,3 +56,6 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# vendor-specific files added after postinstall
+frontend/vendor/*
