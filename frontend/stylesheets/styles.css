@@ -56,7 +56,10 @@
   text-align: center;
 }
 
-.custom-footer p { display: inline-block; }
+.custom-footer p {
+  display: inline-block;
+  color: rgba(42, 40, 41, 0.90);
+}
 
 .content p:not(:last-child) { margin-bottom: 0.5em; }
 
@@ -64,7 +67,10 @@
 
 .custom-footer a:hover { color: rgba(42, 40, 41, 0.90); }
 
-.custom-footer p:not(:last-of-type)::after { content: " • " }
+.custom-footer p:not(:last-of-type)::after { 
+  content: " • ";
+  font-size: 0.75rem;
+}
 
 .modal-card-head { background-color: hsl(348, 100%, 61%); }
 
