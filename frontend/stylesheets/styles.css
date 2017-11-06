@@ -39,6 +39,10 @@
     position: relative;
     width: 100%;
   }
+
+  .remove-when-small {
+    display: none;
+  }
 }
 
 .panel:not(:last-child) { margin-bottom: 0.85rem; }
