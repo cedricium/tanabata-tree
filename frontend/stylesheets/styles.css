@@ -43,6 +43,8 @@
 
 .panel:not(:last-child) { margin-bottom: 0.85rem; }
 
+.panel-heading { background-color: #FAFAFA }
+
 .custom-footer {
   margin: 0 0;
   padding: 0 0;
