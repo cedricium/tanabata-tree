@@ -65,7 +65,10 @@
 
 .custom-footer a { color: rgba(42, 40, 41, 0.65); }
 
-.custom-footer a:hover { color: rgba(42, 40, 41, 0.90); }
+.custom-footer a:hover {
+  color: rgba(42, 40, 41, 0.90);
+  text-decoration: underline;
+}
 
 .custom-footer p:not(:last-of-type)::after { 
   content: " • ";
