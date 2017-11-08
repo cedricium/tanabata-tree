@@ -81,19 +81,33 @@ function search(query, filter) {
   filterTanzakus(currentTanzakuFilter);
   query = query.toLowerCase();
   let cards = document.querySelectorAll('.card-body:not(.hidden)');
+  let numTanzakusFound = cards.length;
 
   try {
     for (let i = 0; i < cards.length; i++) {
       if (!cards[i].dataset.title.toLowerCase().includes(query) &&
       !cards[i].dataset.desc.toLowerCase().includes(query) &&
-      !cards[i].dataset.url.toLowerCase().includes(query))
+      !cards[i].dataset.url.toLowerCase().includes(query)) {
         cards[i].classList.add('hidden');
+        numTanzakusFound--;
+      }
     }
+    if (numTanzakusFound === 0)
+      toggleNotFound(false);
   } catch (e) {
   	console.error(e);
   }
 }
 
+
+function toggleNotFound(should_hide) {
+  notFoundDiv = document.querySelector('.no-tanzakus-found');
+  
+  if (should_hide)
+    notFoundDiv.classList.add('hidden');
+  else
+    notFoundDiv.classList.remove('hidden');
+} 
 
 function scrollToTop() {
   window.scrollTo(0, 0);
@@ -133,6 +147,7 @@ function activateFilter(filter) {
 
 function filterTanzakus(filter) {
   unhideTanzakus();
+  toggleNotFound(true);
 
   let filtered_category;
   switch (filter) {

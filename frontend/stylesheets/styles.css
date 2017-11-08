@@ -5,10 +5,26 @@
   font-style: normal;
 }
 
-.load-more {
+@font-face {
+  font-family: 'Short Stack';
+  src: url('../resources/fonts/ShortStack-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* .end-of-page, */
+.no-tanzakus-found {
   margin: 5% auto;
   text-align: center;
-  cursor: pointer;
+}
+
+.no-tanzakus-found * {
+  font-family: 'Short Stack', sans-serif;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-head {
