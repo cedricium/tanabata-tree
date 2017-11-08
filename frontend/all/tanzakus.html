@@ -71,30 +71,30 @@
                     Filter
                   </p>
                   <div class="panel-block">
-                    <p class="control has-icons-left">
-                      <input class="input is-small" type="text" placeholder="search">
+                    <p class="control">
+                      <input class="input is-small" type="text" placeholder="search" id="searchbar">
                     </p>
                   </div>
-                  <a class="panel-block filter" data-filter="all" onclick="activateFilter(event)">
+                  <a class="panel-block filter" data-filter="all" onclick="activateFilter('all')">
                     <span class="panel-icon">
                       <i class="fa fa-list"></i>
                     </span>
                     All
                   </a>
-                  <a class="panel-block filter" data-filter="new" onclick="activateFilter(event)">
+                  <a class="panel-block filter" data-filter="new" onclick="activateFilter('new')">
                     <span class="panel-icon">
                       <i class="fa fa-star"></i>
                     </span>
                     New
                   </a>
-                  <a class="panel-block filter" data-filter="archived" onclick="activateFilter(event)">
+                  <a class="panel-block filter" data-filter="archived" onclick="activateFilter('archived')">
                     <span class="panel-icon">
                       <i class="fa fa-bookmark"></i>
                     </span>
                     Archived
                   </a>
                   <div class="panel-block">
-                    <button class="button is-primary is-outlined is-fullwidth">
+                    <button class="button is-primary is-outlined is-fullwidth" onclick="resetFilters()">
                       reset all filters
                     </button>
                   </div>

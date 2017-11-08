@@ -1,8 +1,5 @@
 const LOAD_TANZAKUS_AMOUNT = 5;
-let tanzakusCurrentlyShowing = 0;
-
 let currentTanzakuFilter = '';
-
 let cards = document.getElementsByClassName('card-body');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       createCard(title, url, desc, has_been_visited, created_at, id);
     }
 
-    loadMore(tanzakusCurrentlyShowing, tanzakusCurrentlyShowing + LOAD_TANZAKUS_AMOUNT);
-    window.addEventListener('scroll', loadWhenBottomReached);
-    
+    const searchbar = document.getElementById('searchbar');
+    searchbar.addEventListener('keyup', automaticSearching);
+
     loader.classList.add('hidden');
     
     let deleteBtns = document.getElementsByClassName('_delete');
@@ -67,93 +64,99 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function loadMore(pos, len) {
-  limit = 0;
-  let limitIsMet = false;
+let timeout = null;
 
-  switch (currentTanzakuFilter) {
-    case 'archived':
-      while (limitIsMet === false) {
-        for (let i = pos; i < cards.length; i++) {
-          if (cards[i].dataset.visited === 'true' && cards[i].classList.contains('hidden')) {
-            cards[i].classList.remove('hidden');
-            limit++;
-
-            if (limit === len) {
-              limitIsMet = true;
-              break;
-            }
-          }
-          if (i === cards.length - 1)
-            document.querySelector('.load-more').classList.add('hidden');
-        }
-        break;
-      }
-      break;
-    case 'new':
-      while (limitIsMet === false) {
-        for (let i = pos; i < cards.length; i++) {
-          if (cards[i].dataset.visited === 'false' && cards[i].classList.contains('hidden')) {
-            cards[i].classList.remove('hidden');
-            limit++;
-
-            if (limit === len) {
-              limitIsMet = true;
-              break;
-            }
-          }
-          if (i === cards.length - 1)
-          document.querySelector('.load-more').classList.add('hidden');
-        }
-      }
-      break;
-    case 'all':
-      while (limitIsMet === false) {
-        for (let i = pos; i < cards.length; i++) {
-          if (cards[i].classList.contains('hidden')) {
-            cards[i].classList.remove('hidden');
-            limit++;
-
-            if (limit === len) {
-              limitIsMet = true;
-              break;
-            }
-          }
-          if (i === cards.length - 1)
-          document.querySelector('.load-more').classList.add('hidden');
-        }
-      }
-      break;
-  }
-  tanzakusCurrentlyShowing += LOAD_TANZAKUS_AMOUNT;
-}
-
-
-function loadWhenBottomReached() {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    loadMore(tanzakusCurrentlyShowing, LOAD_TANZAKUS_AMOUNT);
-  }
-}
-
-
-function activateFilter(e) {
-  let currentFilter = currentTanzakuFilter;
-  if (currentFilter === e.target.dataset.filter)
-    return;
+function automaticSearching() {
+  const minValue = 3;
+  let searchValue = searchbar.value;
+  clearTimeout(timeout);
   
-  document.querySelector('.filter.is-active').classList.remove('is-active');
-  e.target.classList.add('is-active');
-  currentTanzakuFilter = e.target.dataset.filter
-  clearTanzakus();
-  loadMore(0, LOAD_TANZAKUS_AMOUNT);
+  timeout = setTimeout(function() {
+    search(searchValue, currentTanzakuFilter);
+  }, 800);
 }
 
 
-function clearTanzakus() {
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.add('hidden');
+function search(query, filter) {
+  filterTanzakus(currentTanzakuFilter);
+  query = query.toLowerCase();
+  let cards = document.querySelectorAll('.card-body:not(.hidden)');
+
+  try {
+    for (let i = 0; i < cards.length; i++) {
+      if (!cards[i].dataset.title.toLowerCase().includes(query) &&
+      !cards[i].dataset.desc.toLowerCase().includes(query) &&
+      !cards[i].dataset.url.toLowerCase().includes(query))
+        cards[i].classList.add('hidden');
+    }
+  } catch (e) {
+  	console.error(e);
   }
-  tanzakusCurrentlyShowing = 0;
+}
+
+
+function scrollToTop() {
+  window.scrollTo(0, 0);
+}
+
+
+function resetFilters() {
+  searchbar.value = '';
+  activateFilter('all');
+  scrollToTop();
+}
+
+
+function activateFilter(filter) {
+  searchbar.value = '';
+  let currentFilter = currentTanzakuFilter;
+
+  if (currentFilter !== filter) {
+    document.querySelector('.filter.is-active').classList.remove('is-active');
+    switch (filter) {
+      case 'all':
+        document.querySelector('a[data-filter="all"]').classList.add('is-active');
+        break;
+      case 'new':
+        document.querySelector('a[data-filter="new"]').classList.add('is-active');
+        break;
+      case 'archived':
+        document.querySelector('a[data-filter="archived"]').classList.add('is-active');
+        break;
+    }
+  }
+  currentTanzakuFilter = filter;
+  scrollToTop();
+  filterTanzakus(currentTanzakuFilter);
+}
+
+
+function filterTanzakus(filter) {
+  unhideTanzakus();
+
+  let filtered_category;
+  switch (filter) {
+    case 'new':
+      filtered_category = 'false';
+      break;
+    case 'archived':
+      filtered_category = 'true';
+      break;
+    default: // includes 'all' filter
+      return;
+  }
+
+  for (let i = 0; i < cards.length; i++) {
+    if (cards[i].dataset.visited !== filtered_category)
+      cards[i].classList.add('hidden');
+  }
+}
+
+
+function unhideTanzakus() {
+  let cards = document.querySelectorAll('.card-body.hidden');
+  for (let i = 0; i < cards.length; i++)
+    cards[i].classList.remove('hidden');
 }
 
 
@@ -246,7 +249,10 @@ function createCard(title, url, desc, has_been_visited, created_at, id) {
   
   let card = document.createElement('div');
   card.classList.add('card-body');
-  card.classList.add('hidden');
+  // card.classList.add('hidden');
+  card.dataset.title = title;
+  card.dataset.url = url;
+  card.dataset.desc = desc;
   card.dataset.visited = has_been_visited;
 
   card.innerHTML = '<div class="card"><header class="card-header"><a href="' + url + '" class="card-header-icon" target="_blank"><span class="icon">🎋</span></a><p class="card-header-title">' + title + '</p></header><div class="card-content"><div class="content"><p>' + desc + '</p><small> <a href="' + url + '" target="_blank">' + rootUrl + '</a> </small> <small> <a class="timestamp">' + formattedTime + '</a> </small></div></div><footer class="card-footer" data-id="' + id + '"><a href="' + url + '" target="_blank" class="card-footer-item" onclick="updateTanzaku(event)">View</a><a data-id="' + id + '" class="card-footer-item _delete">Delete</a></footer></div>';
