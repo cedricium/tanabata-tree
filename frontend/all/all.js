@@ -2,6 +2,12 @@ const LOAD_TANZAKUS_AMOUNT = 5;
 let currentTanzakuFilter = '';
 let cards = document.getElementsByClassName('card-body');
 
+
+/**
+ * Function called when page DOM content has been loaded (on redirect to current page or refresh).
+ * Makes a GET request to the server for all tanzakus and creates the cards based on the response.
+ * @param None
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   loader.classList.remove('hidden');
@@ -64,6 +70,69 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+/**
+ * Function used to update the database for a given tanzaku's `has_been_visited` value.
+ * @param {event} e - Event when tanzaku 'View' button clicked
+ */
+function updateTanzaku(e) {
+  let visited = e.target.parentElement.parentElement.parentElement.dataset.visited;
+  let id = e.target.parentElement.dataset.id;
+
+  let apiUpdateTanzaku = '../api/v1/tanzakus/' + id
+
+  if (visited !== true) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', apiUpdateTanzaku);
+    xhr.onload = function () {
+      window.location.href = '/all/tanzakus.html';
+    }
+    xhr.send();
+  } else
+    return;
+}
+
+/**
+ * Function used to initiate process of deleting tanzaku from database by
+ * creating a confirmation modal.
+ * @param None
+ */
+function deleteTanzaku() {
+  let id = this.getAttribute('data-id');
+  
+  // confirm deletion of tanzaku
+  let deleteTitle = 'Finished with this tanzaku?';
+  let deleteMessage = 'Are you sure you want to delete this tanzaku?';
+  
+  createModal(deleteTitle, deleteMessage, true, id);
+}
+
+/**
+ * Function to finish process of permanently deleting tanzaku from database.
+ * @param {Boolean} should_delete - Boolean value whether to delete tanzaku (true) or not (false).
+ * @param {string} id - UUID of given tanzaku to delete.
+ */
+function continueDeletion(should_delete, id) {
+  let apiDeleteUrl = '../api/v1/tanzakus/' + id;
+  
+  if (should_delete) {
+    let xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', requestListener);
+    xhr.open('DELETE', apiDeleteUrl);
+    xhr.send();
+  } else
+    return;
+  
+  function requestListener() {
+    window.location.href = '/all/tanzakus.html';
+  }
+}
+
+
+/**
+ * Function called when `onkeyup` is fired inside the `#searchbar` element. Begins
+ * process of searching tanzakus by creating a new timeout.
+ * @param None
+ */
 let timeout = null;
 
 function automaticSearching() {
@@ -76,7 +145,12 @@ function automaticSearching() {
   }, 800);
 }
 
-
+/**
+ * Function searches through the current non-hidden tanzakus for the given `query`. Checks against
+ * the tanzakus title, description, and url. If a match is not found, tanzakus are hidden.
+ * @param {string} query - String to be matched against when searching through tanzakus.
+ * @param {string} filter - OPTIONAL (should delete)
+ */
 function search(query, filter) {
   filterTanzakus(currentTanzakuFilter);
   query = query.toLowerCase();
@@ -99,7 +173,12 @@ function search(query, filter) {
   }
 }
 
-
+/**
+ * Function used to toggle the visibility of the `div class="no-tanzakus-found">` element.
+ * Is set visible when filtering tanzakus and no tanzakus match current filter, hidden elsewise.
+ * @param {Boolean} should_hide - True if `div class="no-tanzakus-found">` element should be
+ *                                hidden, false if otherwise (when filtering and no tanzakus are found).
+ */
 function toggleNotFound(should_hide) {
   notFoundDiv = document.querySelector('.no-tanzakus-found');
   
@@ -109,18 +188,30 @@ function toggleNotFound(should_hide) {
     notFoundDiv.classList.remove('hidden');
 } 
 
+/**
+ * Helper function that scrolls to the top of the page. Typically called when page has been
+ * scrolled and a filter or search occurs (used to 'reset' the page).
+ * @param None
+ */
 function scrollToTop() {
   window.scrollTo(0, 0);
 }
 
-
+/**
+ * Function called to reset the filters panel. Callback function for the 'reset all filters' button.
+ * @param None
+ */
 function resetFilters() {
   searchbar.value = '';
   activateFilter('all');
   scrollToTop();
 }
 
-
+/**
+ * Function used to set the current filter to the corresponding filter button which was clicked.
+ * Callback function for each of the three filter buttons in the filter panel.
+ * @param {string} filter - Filter to be set to. Options: 'all', 'new', or 'archived'.
+ */
 function activateFilter(filter) {
   searchbar.value = '';
   let currentFilter = currentTanzakuFilter;
@@ -144,7 +235,13 @@ function activateFilter(filter) {
   filterTanzakus(currentTanzakuFilter);
 }
 
-
+/**
+ * Function used to set the visibility of the tanzakus based on the given `filter`.
+ * @param {string} filter - Filter to be set to. Options: 'all', 'new', or 'archived'. Maps out
+ *                          to whether the tanzakus' corresponding `has_been_visited` value
+ *                          (true - 'archived'; false - 'new'). The 'all' filter means all tanzakus
+ *                           will be shown (`has_been_visited` indifferent).
+ */
 function filterTanzakus(filter) {
   unhideTanzakus();
   toggleNotFound(true);
@@ -167,7 +264,11 @@ function filterTanzakus(filter) {
   }
 }
 
-
+/**
+ * Function used to unhide (removes `hidden` class) from currently hidden tanzakus. Used to
+ * return to original state of all tanzakus displayed.
+ * @param None
+ */
 function unhideTanzakus() {
   let cards = document.querySelectorAll('.card-body.hidden');
   for (let i = 0; i < cards.length; i++)
@@ -175,51 +276,12 @@ function unhideTanzakus() {
 }
 
 
-function updateTanzaku(e) {
-  let visited = e.target.parentElement.parentElement.parentElement.dataset.visited;
-  let id = e.target.parentElement.dataset.id;
-
-  let apiUpdateTanzaku = '../api/v1/tanzakus/' + id
-
-  if (visited !== true) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', apiUpdateTanzaku);
-    xhr.onload = function () {
-      window.location.href = '/all/tanzakus.html';
-    }
-    xhr.send();
-  } else
-    return;
-}
-
-
-function deleteTanzaku() {
-  let id = this.getAttribute('data-id');
-  
-  // confirm deletion of tanzaku
-  let deleteTitle = 'Finished with this tanzaku?';
-  let deleteMessage = 'Are you sure you want to delete this tanzaku?';
-  
-  createModal(deleteTitle, deleteMessage, true, id);
-}
-
-function continueDeletion(should_delete, id) {
-  let apiDeleteUrl = '../api/v1/tanzakus/' + id;
-  
-  if (should_delete) {
-    let xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', requestListener);
-    xhr.open('DELETE', apiDeleteUrl);
-    xhr.send();
-  } else
-    return;
-  
-  function requestListener() {
-    window.location.href = '/all/tanzakus.html';
-  }
-}
-
-
+/**
+ * Function used to format date provided by the database (UTC) to a readable format
+ * that is found on the tanzakus.
+ * @param {string} date - UTC date attached to the `created_at` value for each tanzaku.
+ * @returns {string} - formatted time and date in the 'HH:MM AM/PM - DD Mon YYYY' format.
+ */
 function convertUTC(date) {
   let dateTime = new Date(date);
   let locale = 'en-US';
@@ -251,6 +313,17 @@ function convertUTC(date) {
 }
 
 
+/**
+ * Function used to turn JSON response from the server (`GET api/v1/tanzakus`) into
+ * Bulma-styled cards ('tanzakus').
+ * @param {string} title - Title for the tanzaku.
+ * @param {string} url - URL the tanzaku directs to.
+ * @param {string} desc - Description of the tanzaku.
+ * @param {string} has_been_visited - String representation of a Boolean: 'true' if has been
+ *                                    visited before, 'false' if not.
+ * @param {string} created_at - Date and time the tanzaku was created.
+ * @param {string} id - UUID assigned by the server when the tanzaku was created.
+ */
 function createCard(title, url, desc, has_been_visited, created_at, id) {
   const cardDiv = document.getElementById('card-div');
   let rootUrl = '';
