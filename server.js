@@ -62,6 +62,12 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
   });
 
   client.query('SELECT * FROM tanabata_tree;', (err, res) => {
+    if (err) {
+      finished(err);
+      client.end();
+      return console.error('error with PostgreSQL database', err);
+    }
+
     let tanzakus = {},
         id = '',
         url = '',
@@ -91,6 +97,18 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
     client.end();
     response.send(tanzakus);
   });
+
+  function finished(err) {
+    if (err) {
+      response.status(400);
+      reply = {
+        message: 'get_tanzakus_failed',
+        status: 'failed'
+      };
+      
+      response.send(reply);
+    }
+  }
 });
 
 /**
