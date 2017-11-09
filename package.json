@@ -1,6 +1,6 @@
 {
   "name": "tanabata-tree",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Save links (called a 'tanzaku') for later viewing across multiple devices.",
   "main": "server.js",
   "scripts": {
