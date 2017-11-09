@@ -24,6 +24,10 @@
   text-align: center;
 }
 
+.no-tanzakus-found figure.image {
+  background: no-repeat top/85% url('../resources/tanzaku.png');
+}
+
 .no-tanzakus-found * {
   font-family: 'Short Stack', sans-serif;
   text-align: center;
