@@ -152,7 +152,7 @@
   }
 }
 
-@media all and (min-width: 925px) {  /* correct widths (will need multiple queries) */
+@media all and (min-width: 925px) {
   .contained {
     left: 0;
     right: 0;
@@ -227,37 +227,4 @@
 
 #logo {
   font-size: 200%;
-}
-
-/* #recent row highlighted (closest representation of the
- *   'is-selected' class in v0.4.2 from Bulma
- */
-.base {
-  background-color: hsl(171, 100%, 41%);
-  transition: background-color ease 1500ms;
-}
-
-#recent.base td {
-  color: #ffffff;
-  transition: color ease 1500ms;
-}
-
-.base * {
-  color: #ffffff;
-  transition: color ease 1500ms;
-}
-
-/* #recent row back to it's original appearance using CSS
- *   transitions
- */
-.active {
-  background-color: transparent;
-}
-
-#recent.active td {
-  color: #7a7a7a;
-}
-
-.active * {
-  color: hsl(171, 100%, 41%);
 }
