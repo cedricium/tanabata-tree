@@ -12,6 +12,12 @@
   font-style: normal;
 }
 
+
+.column figure.image {
+  background: no-repeat top/80% url('../resources/tanabata-tree.png');
+}
+
+
 /* .end-of-page, */
 .no-tanzakus-found {
   margin: 5% auto;
@@ -48,6 +54,10 @@
   margin-left: auto;
   margin-right: 74%;
   width: 23%;
+}
+
+.sidebar figure.image {
+  background: no-repeat top/85% url('../resources/tanabata-tree.png');
 }
 
 @media screen and (max-width: 770px) {
