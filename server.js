@@ -99,15 +99,14 @@ app.get(apiRoute + 'tanzakus', function(request, response) {
   });
 
   function finished(err) {
-    if (err) {
-      response.status(400);
-      reply = {
-        message: 'get_tanzakus_failed',
-        status: 'failed'
-      };
-      
-      response.send(reply);
-    }
+    response.status(500);
+    reply = {
+      message: 'Error connecting to database',
+      error: err,
+      status: 'failed'
+    };
+    
+    response.send(reply);
   }
 });
 
