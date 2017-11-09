@@ -41,7 +41,7 @@
 
 .column:nth-of-type(2) { z-index: 1; }
 
-.sidebar {    /* create media-query */
+.sidebar {
   position: fixed;
   left: 0;
   right: 0;
@@ -109,6 +109,56 @@
   float: right;
   color: rgba(0, 0, 0, 0.5);
   cursor: default;
+}
+
+
+.contained {
+  left: auto;
+  right: auto;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+
+  font-family: Georgia, Times, "Times New Roman", "Hiragino Kaku Gothic Pro", "Meiryo", serif;
+  color: rgb(42, 40, 41);
+}
+
+.contained .title {
+  font-weight: bold;
+}
+
+.contained div[class^='has-text-'] {
+  font-size: 18px;
+}
+
+.contained .has-text-right {
+  margin-top: 1.5rem;
+  font-family: 'Short Stack', sans-serif;
+}
+
+.contained .image {
+  background: no-repeat top/30% url('../resources/tanzaku_yellow.png');
+  -webkit-transform: rotate(-25deg);
+  -moz-transform: rotate(-25deg);
+  transform: rotate(-25deg);
+}
+
+@media all and (max-width: 924px) and (min-width: 768px) {
+  .contained {
+    left: 0;
+    right: 0;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+}
+
+@media all and (min-width: 925px) {  /* correct widths (will need multiple queries) */
+  .contained {
+    left: 0;
+    right: 0;
+    margin-left: 30%;
+    margin-right: 30%;
+  }
 }
 
 
