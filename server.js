@@ -1,7 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const meta = require('minimal-metainspector');
-const wwwhisper = require('connect-wwwhisper');
 const uuidv5 = require('uuid');
 
 const pg = require('pg');
@@ -14,9 +13,6 @@ const connectionString = process.env.DATABASE_URL;
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-// wwwhisper authentication
-app.use(wwwhisper());
 
 // set-up of body-parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
