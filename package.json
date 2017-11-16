@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "postinstall": "node scripts/postinstall.js && node server/models/database.js"
+    "postinstall": "node scripts/postinstall.js"
   },
   "repository": {
     "type": "git",
