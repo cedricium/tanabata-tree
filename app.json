@@ -9,7 +9,7 @@
     "wwwhisper:solo"
   ],
   "scripts": {
-    "postdeploy": "node server/models/database.js"
+    "postdeploy": "npm run postinstall"
   },
   "env": {
     "TZ": "America/Los_Angeles"
